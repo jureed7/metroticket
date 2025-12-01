@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Metro Transit Ticket</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- HEADER -->
+    <header class="app-header">
+      <h1>Metro Transit</h1>
+      <p>Show operator your ticket</p>
+    </header>
+
+    <!-- VIDEO CIRCLE -->
+    <div class="video-wrapper">
+      <video
+        src="ScreenRecording_04-02-2025 14-08-49_1.mov"
+        autoplay
+        muted
+        loop
+        playsinline
+      ></video>
+    </div>
+
+    <!-- CLOCK -->
+    <div class="time-section">
+      <div id="current-time" class="big-time">--:--:--</div>
+    </div>
+
+    <!-- TICKET INFO BOX -->
+    <section class="ticket-card">
+      <h2>Adult Non-Rush Hour</h2>
+      <p class="location">Minneapolis / St. Paul Metro Area</p>
+      <p id="expiration-text" class="expires">Expires ...</p>
+    </section>
+
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    function pad2(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function formatClock(date) {
+      let h = date.getHours();
+      const m = pad2(date.getMinutes());
+      const s = pad2(date.getSeconds());
+      const ampm = h >= 12 ? "PM" : "AM";
+      h = h % 12;
+      if (h === 0) h = 12;
+      return `${h}:${m}:${s} ${ampm}`;
+    }
+
+    function formatExpiration(date) {
+      const opts = { month: "short", day: "numeric", year: "numeric" };
+      let h = date.getHours();
+      const m = pad2(date.getMinutes());
+      const ampm = h >= 12 ? "PM" : "AM";
+      h = h % 12;
+      if (h === 0) h = 12;
+
+      return `Expires ${date.toLocaleDateString(undefined, opts)} at ${h}:${m} ${ampm}`;
+    }
+
+    function update() {
+      const now = new Date();
+      document.getElementById("current-time").textContent = formatClock(now);
+
+      const exp = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      document.getElementById("expiration-text").textContent = formatExpiration(exp);
+    }
+
+    update();
+    setInterval(update, 1000);
+  </script>
+
+</body>
+</html>
